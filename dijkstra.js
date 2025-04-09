@@ -24,7 +24,7 @@ export const obj = {
 }
 /* -------------------------------------------------------------------------- */
 function formatiranjeInfiksnogOperanda(op, redniBroj, znak, znakPrioritet, poslednji) {
-	if (poslednji && op.prioritet >= znakPrioritet) return `${op.zapis}`
+	if (poslednji && op.prioritet > znakPrioritet) return `${op.zapis}`
 
 	if (op.prioritet > 0 && op.prioritet < znakPrioritet) return `(${op.zapis})`
 
