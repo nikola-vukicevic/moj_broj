@@ -18,9 +18,10 @@ export const Obj = {
 	// e: 15,
 	// f: 50,
 	// zadatiBroj: 969,
-	najblizi:     1000000,
-	razdaljina:   1000000000,
-	listaResenja: [ ]
+	najblizi:       1000000,
+	razdaljina:     1000000000,
+	prosirenaLista: false,
+	listaResenja:   [ ]
 }
 /* -------------------------------------------------------------------------- */
 function formatiranjeInfiksnogOperanda(op, redniBroj, znak, znakPrioritet, poslednji) {
