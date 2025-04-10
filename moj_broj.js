@@ -5,6 +5,7 @@ import * as dijkstra from './dijkstra.js'
 import * as fs from 'fs'
 /* -------------------------------------------------------------------------- */
 function pripremaPodataka(funkcijaZaObradu, obj) {
+	// let kombinacije = fs.readFileSync("./kombinacije.txt", "utf-8")//.split("\n")
 	let kombinacije = fs.readFileSync("./izrazi/izrazi3.txt", "utf-8")//.split("\n")
 	kombinacije += fs.readFileSync("./izrazi/izrazi5.txt", "utf-8")
 	kombinacije += fs.readFileSync("./izrazi/izrazi7.txt", "utf-8")
@@ -39,6 +40,8 @@ function demoIspis(obj, header, format) {
 		console.log(`-------------------------`)
 	}
 
+	if (!header && format == 1) console.log(obj.zadatiBroj)
+
 	obj.listaResenja.forEach(e => {
 		if (format == 1) {
 			console.log(e[1])
@@ -58,9 +61,10 @@ function ucitavanjeIzKonzole(obj) {
 		if (process.argv[i] == undefined) return
 		brojevi.push(process.argv[i])
 	}
-	obj.a = brojevi[0]; obj.b = brojevi[1]; obj.c = brojevi[2]
-	obj.d = brojevi[3]; obj.e = brojevi[4]; obj.f = brojevi[5]
-	obj.zadatiBroj = brojevi[6]
+	obj.a = parseInt(brojevi[0]); obj.b = parseInt(brojevi[1]);
+	obj.c = parseInt(brojevi[2]); obj.d = parseInt(brojevi[3]);
+	obj.e = parseInt(brojevi[4]); obj.f = parseInt(brojevi[5]);
+	obj.zadatiBroj = parseInt(brojevi[6])
 	obj.prosirenaLista = process.argv[9] == "-e" || false
 }
 /* -------------------------------------------------------------------------- */

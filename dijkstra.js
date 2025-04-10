@@ -24,7 +24,7 @@ export const Obj = {
 	listaResenja:   [ ]
 }
 /* -------------------------------------------------------------------------- */
-function formatiranjeInfiksnogOperanda(op, redniBroj, znak, znakPrioritet, poslednji) {
+function formatiranjeInfiksnogOperanda(op, redniBroj, znak, znakPrioritet) {
 	if (op.prioritet == 0) return `${op.zapis}`
 
 	if (op.prioritet < znakPrioritet) return `(${op.zapis})`
@@ -36,12 +36,12 @@ function formatiranjeInfiksnogOperanda(op, redniBroj, znak, znakPrioritet, posle
 	return `${op.zapis}`
 }
 /* -------------------------------------------------------------------------- */
-function spajanjeInfiks(stek, znak, poslednji) {
+function spajanjeInfiks(stek, znak) {
 	let op2    = stek.pop()
 	let op1    = stek.pop()
 	let znakPr = (znak == "*" || znak == "/")? 2 : 1
-	let op1Str = formatiranjeInfiksnogOperanda(op1, 1, znak, znakPr, poslednji)
-	let op2Str = formatiranjeInfiksnogOperanda(op2, 2, znak, znakPr, poslednji)
+	let op1Str = formatiranjeInfiksnogOperanda(op1, 1, znak, znakPr)
+	let op2Str = formatiranjeInfiksnogOperanda(op2, 2, znak, znakPr)
 
 	stek.push({
 		prioritet: znakPr,
@@ -61,8 +61,7 @@ function pretvaranjeUInfiksniZapis(rpn, obj) {
 			})
 		}
 		else {
-			const poslednji = i == rpn.length - 1
-			spajanjeInfiks(stek, znak, poslednji)
+			spajanjeInfiks(stek, znak)
 		}
 	}
 

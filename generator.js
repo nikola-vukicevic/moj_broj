@@ -336,7 +336,12 @@ function demo() {
 }
 /* -------------------------------------------------------------------------- */
 
-demo()
+// demo()
+
+let s = "fbce*ad*-*+" 
+let p = svodjenjeIzraza(s)
+console.log(s)
+console.log(p)
 
 // kreiranjeSadrzajaZaDatoteku(11, true, false) // optimizacije - true; demo - false
 
