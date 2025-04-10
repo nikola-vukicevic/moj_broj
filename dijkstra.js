@@ -24,13 +24,13 @@ export const obj = {
 }
 /* -------------------------------------------------------------------------- */
 function formatiranjeInfiksnogOperanda(op, redniBroj, znak, znakPrioritet, poslednji) {
-	if (poslednji && op.prioritet > znakPrioritet) return `${op.zapis}`
+	if (op.prioritet == 0) return `${op.zapis}`
 
-	if (op.prioritet > 0 && op.prioritet < znakPrioritet) return `(${op.zapis})`
+	if (op.prioritet < znakPrioritet) return `(${op.zapis})`
 
-	if (redniBroj == 2) { // drugi operand
-		if (op.prioritet > 0 && (znak == '-' || znak == '/')) return `(${op.zapis})` 
-	}
+	if (op.prioritet > znakPrioritet) return `${op.zapis}`
+	
+	if (redniBroj == 2 && (znak == '-' || znak == '/')) return `(${op.zapis})` 
 
 	return `${op.zapis}`
 }
@@ -76,8 +76,13 @@ function racunanjeRanaTerminacija(op1, op2, znak) {
 	if (znak == '*' && op2 == 1) return true
 	if (znak == '/' && op1 == 1) return true
 	if (znak == '/' && op2 == 1) return true
-	// if (op2 == 0 && z =='/') return false
 
+	return false
+}
+/* -------------------------------------------------------------------------- */
+function sprecavanjeDecimalnih(znak, rez) {
+	if (znak !== '/') return false
+	if (Math.trunc(rez) !== rez) return true
 	return false
 }
 /* -------------------------------------------------------------------------- */
@@ -86,15 +91,20 @@ function racunanje(z, stek, obj) {
 	const op1 = stek.pop()
 
 	if (racunanjeRanaTerminacija(op1, op2, z)) return false
-	// if (op2 == 0 && z =='/') return false
+
+	let rez = -1000
 
 	switch(z) {
-		case '+': stek.push(op1 + op2); break;
-		case '-': stek.push(op1 - op2); break;
-		case '*': stek.push(op1 * op2); break;
-		case '/': stek.push(op1 / op2); break;
+		case '+': rez = op1 + op2; break;
+		case '-': rez = op1 - op2; break;
+		case '*': rez = op1 * op2; break;
+		case '/': rez = op1 / op2; break;
 		default: break;
 	}
+
+	if (sprecavanjeDecimalnih(z, rez)) return false
+
+	stek.push(rez)
 
 	return true
 }
@@ -107,9 +117,7 @@ function ubacivanjeIzrazaUListu(lista, izraz, obj) {
 	])
 }
 /* -------------------------------------------------------------------------- */
-function obradaListe(rez, izraz, obj) {
-	if (rez - Math.floor(rez) != 0) return false
-
+function popunjavanjeListe(rez, izraz, obj) {
 	let razdaljina_pom = Math.abs(obj.zadatiBroj - rez)
 
 	if (razdaljina_pom == obj.razdaljina) {
@@ -126,7 +134,7 @@ function obradaListe(rez, izraz, obj) {
 	}
 }
 /* -------------------------------------------------------------------------- */
-export function evaluate(s, obj) {
+export function procenaIzraza(s, obj) {
 	const stek = [ ]
 
 	for (let i = 0; i < s.length; ++i) {
@@ -141,7 +149,7 @@ export function evaluate(s, obj) {
 		}
 	}
 
-	return obradaListe(stek[0], s, obj)
+	return popunjavanjeListe(stek[0], s, obj)
 }
 /* -------------------------------------------------------------------------- */
 

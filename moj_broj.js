@@ -16,7 +16,7 @@ for (let i = 0; i < g; ++i) {
 	// linije.foreach(l => {
 		let l = linije[i]
 		if (l == "" || l.startsWith("##")) continue
-		rez = dijkstra.evaluate(l, dijkstra.obj)
+		rez = dijkstra.procenaIzraza(l, dijkstra.obj)
 	// })
 	}
 }
