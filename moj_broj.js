@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------- */
 // Copyright (c) Nikola Vukićević 2025.
 /* -------------------------------------------------------------------------- */
-import * as dijkstra    from './dijkstra.js'
+import * as dijkstra from './dijkstra.js'
 import * as fs from 'fs'
 /* -------------------------------------------------------------------------- */
 function pripremaPodataka(funkcijaZaObradu, obj) {
@@ -19,21 +19,24 @@ function pripremaPodataka(funkcijaZaObradu, obj) {
 	}
 }
 /* -------------------------------------------------------------------------- */
-function demoIspis(obj, format) {
+function demoIspis(obj, header, format) {
 	// console.log(dijkstra.obj)
-	console.log(`-------------------------`)
-	console.log(`Traženi broj: ${obj.zadatiBroj}`)
-	console.log(`Ponuđeni brojevi: ${obj.a} ${obj.b} ${obj.c} ${obj.d} ${obj.e} ${obj.f}`)
-	if (obj.najblizi == obj.zadatiBroj) {
-		console.log(`Traženi broj je pronađen.`)
+	if (header) {
+		console.log(`-------------------------`)
+		console.log(`Traženi broj: ${obj.zadatiBroj}`)
+		console.log(`Ponuđeni brojevi: ${obj.a} ${obj.b} ${obj.c} ${obj.d} ${obj.e} ${obj.f}`)
+		if (obj.najblizi == obj.zadatiBroj) {
+			console.log(`Traženi broj je pronađen.`)
+		}
+		else {
+			console.log(`Traženi broj NIJE PRONAĐEN.`)
+			console.log(`Najbliži pronađeni broj je ${obj.najblizi}`)
+		}
+		console.log(`-------------------------`)
+		console.log(`LISTA REŠENJA:`)
+		console.log(`-------------------------`)
 	}
-	else {
-		console.log(`Traženi broj NIJE PRONAĐEN.`)
-		console.log(`Najbliži pronađeni broj je ${obj.najblizi}`)
-	}
-	console.log(`-------------------------`)
-	console.log(`LISTA REŠENJA:`)
-	console.log(`-------------------------`)
+
 	obj.listaResenja.forEach(e => {
 		if (format == 1) {
 			console.log(e[1])
@@ -45,5 +48,7 @@ function demoIspis(obj, format) {
 }
 /* -------------------------------------------------------------------------- */
 pripremaPodataka(dijkstra.procenaIzraza, dijkstra.obj)
-demoIspis(dijkstra.obj, 1) // format: 1 - samo izrazi; 2 - izrazi + detalji
+demoIspis(dijkstra.obj, 1, 1) // 1. Objekat koji sadrži ulazne podatke i rešenja
+                              // 2. Header, da-ne
+                              // 3. Format: 1 - samo izrazi; 2 - izrazi + detalji
 /* -------------------------------------------------------------------------- */
