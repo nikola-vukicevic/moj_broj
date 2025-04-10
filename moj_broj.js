@@ -10,7 +10,13 @@ const g = 1
 /* -------------------------------------------------------------------------- */
 for (let i = 0; i < g; ++i) {
 	// const linije = (await fs.promises.readfile("./kombinacije.txt", "utf-8")).split("\n")
-	const linije = fs.readFileSync("./kombinacije.txt", "utf-8").split("\n")
+	// let kombinacije = fs.readFileSync("./kombinacije.txt", "utf-8")//.split("\n")
+	let kombinacije = fs.readFileSync("./izrazi/izrazi3.txt", "utf-8")//.split("\n")
+	kombinacije += fs.readFileSync("./izrazi/izrazi5.txt", "utf-8")
+	kombinacije += fs.readFileSync("./izrazi/izrazi7.txt", "utf-8")
+	kombinacije += fs.readFileSync("./izrazi/izrazi9.txt", "utf-8")
+	// kombinacije += fs.readFileSync("./izrazi/izrazi11.txt", "utf-8")
+	const linije = kombinacije.split("\n")
 
 	for (let i = 0; i < linije.length; ++i) {
 	// linije.foreach(l => {
@@ -28,14 +34,14 @@ if (dijkstra.obj.najblizi == dijkstra.obj.zadatiBroj) {
 }
 else {
 	console.log(`Traženi broj NIJE PRONAĐEN.`)
-	console.log(`Najbliži pronađeni broj je: ${dijkstra.obj.najblizi}`)
+	console.log(`Najbliži pronađeni broj je ${dijkstra.obj.najblizi}`)
 }
 console.log(`-------------------------`)
 console.log(`LISTA REŠENJA:`)
 console.log(`-------------------------`)
 dijkstra.obj.listaResenja.forEach(e => {
-	// console.log(e[1])
-	console.log(e)
+	console.log(e[1])
+	// console.log(e)
 })
 
 // console.log(dijkstra.obj)

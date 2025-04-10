@@ -69,8 +69,8 @@ function pretvaranjeUInfiksniZapis(rpn, obj) {
 }
 /* -------------------------------------------------------------------------- */
 function racunanjeRanaTerminacija(op1, op2, znak) {
-	if (op1 == 0) return true
-	if (op2 == 0) return true
+	// if (op1 == 0) return true
+	// if (op2 == 0) return true
 
 	if (znak == '*' && op1 == 1) return true
 	if (znak == '*' && op2 == 1) return true
@@ -80,9 +80,10 @@ function racunanjeRanaTerminacija(op1, op2, znak) {
 	return false
 }
 /* -------------------------------------------------------------------------- */
-function sprecavanjeDecimalnih(znak, rez) {
-	if (znak !== '/') return false
+function sprecavanjeDecimalnihINule(znak, rez) {
+	if (rez == 0)                return true
 	if (Math.trunc(rez) !== rez) return true
+	// if (znak !== '/')            return false
 	return false
 }
 /* -------------------------------------------------------------------------- */
@@ -92,7 +93,7 @@ function racunanje(z, stek, obj) {
 
 	if (racunanjeRanaTerminacija(op1, op2, z)) return false
 
-	let rez = -1000
+	let rez = 0
 
 	switch(z) {
 		case '+': rez = op1 + op2; break;
@@ -102,7 +103,7 @@ function racunanje(z, stek, obj) {
 		default: break;
 	}
 
-	if (sprecavanjeDecimalnih(z, rez)) return false
+	if (sprecavanjeDecimalnihINule(z, rez)) return false
 
 	stek.push(rez)
 
@@ -122,7 +123,6 @@ function popunjavanjeListe(rez, izraz, obj) {
 
 	if (razdaljina_pom == obj.razdaljina) {
 		ubacivanjeIzrazaUListu(obj.listaResenja, izraz, obj)
-		return true
 	}
 
 	if (razdaljina_pom < obj.razdaljina) {
@@ -130,7 +130,6 @@ function popunjavanjeListe(rez, izraz, obj) {
 		obj.najblizi     = rez
 		obj.listaResenja = [ ]
 		ubacivanjeIzrazaUListu(obj.listaResenja, izraz, obj)
-		return true
 	}
 }
 /* -------------------------------------------------------------------------- */
@@ -149,7 +148,7 @@ export function procenaIzraza(s, obj) {
 		}
 	}
 
-	return popunjavanjeListe(stek[0], s, obj)
+	popunjavanjeListe(stek[0], s, obj)
 }
 /* -------------------------------------------------------------------------- */
 
