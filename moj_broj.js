@@ -2,15 +2,9 @@
 // Copyright (c) Nikola Vukićević 2025.
 /* -------------------------------------------------------------------------- */
 import * as dijkstra    from './dijkstra.js'
-// import * as generator from './generator.js'
 import * as fs from 'fs'
 /* -------------------------------------------------------------------------- */
-let rez = 0
-const g = 1
-/* -------------------------------------------------------------------------- */
-for (let i = 0; i < g; ++i) {
-	// const linije = (await fs.promises.readfile("./kombinacije.txt", "utf-8")).split("\n")
-	// let kombinacije = fs.readFileSync("./kombinacije.txt", "utf-8")//.split("\n")
+function pripremaPodataka(funkcijaZaObradu, obj) {
 	let kombinacije = fs.readFileSync("./izrazi/izrazi3.txt", "utf-8")//.split("\n")
 	kombinacije += fs.readFileSync("./izrazi/izrazi5.txt", "utf-8")
 	kombinacije += fs.readFileSync("./izrazi/izrazi7.txt", "utf-8")
@@ -19,30 +13,37 @@ for (let i = 0; i < g; ++i) {
 	const linije = kombinacije.split("\n")
 
 	for (let i = 0; i < linije.length; ++i) {
-	// linije.foreach(l => {
 		let l = linije[i]
 		if (l == "" || l.startsWith("##")) continue
-		rez = dijkstra.procenaIzraza(l, dijkstra.obj)
-	// })
+		funkcijaZaObradu(l, obj)
 	}
 }
-console.log(`-------------------------`)
-console.log(`Traženi broj: ${dijkstra.obj.zadatiBroj}`)
-console.log(`Ponuđeni brojevi: ${dijkstra.obj.a} ${dijkstra.obj.b} ${dijkstra.obj.c} ${dijkstra.obj.d} ${dijkstra.obj.e} ${dijkstra.obj.f}`)
-if (dijkstra.obj.najblizi == dijkstra.obj.zadatiBroj) {
-	console.log(`Traženi broj je pronađen.`)
+/* -------------------------------------------------------------------------- */
+function demoIspis(obj, format) {
+	// console.log(dijkstra.obj)
+	console.log(`-------------------------`)
+	console.log(`Traženi broj: ${obj.zadatiBroj}`)
+	console.log(`Ponuđeni brojevi: ${obj.a} ${obj.b} ${obj.c} ${obj.d} ${obj.e} ${obj.f}`)
+	if (obj.najblizi == obj.zadatiBroj) {
+		console.log(`Traženi broj je pronađen.`)
+	}
+	else {
+		console.log(`Traženi broj NIJE PRONAĐEN.`)
+		console.log(`Najbliži pronađeni broj je ${obj.najblizi}`)
+	}
+	console.log(`-------------------------`)
+	console.log(`LISTA REŠENJA:`)
+	console.log(`-------------------------`)
+	obj.listaResenja.forEach(e => {
+		if (format == 1) {
+			console.log(e[1])
+		}
+		else {
+			console.log(e)
+		}
+	})
 }
-else {
-	console.log(`Traženi broj NIJE PRONAĐEN.`)
-	console.log(`Najbliži pronađeni broj je ${dijkstra.obj.najblizi}`)
-}
-console.log(`-------------------------`)
-console.log(`LISTA REŠENJA:`)
-console.log(`-------------------------`)
-dijkstra.obj.listaResenja.forEach(e => {
-	console.log(e[1])
-	// console.log(e)
-})
-
-// console.log(dijkstra.obj)
+/* -------------------------------------------------------------------------- */
+pripremaPodataka(dijkstra.procenaIzraza, dijkstra.obj)
+demoIspis(dijkstra.obj, 1) // format: 1 - samo izrazi; 2 - izrazi + detalji
 /* -------------------------------------------------------------------------- */
