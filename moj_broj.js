@@ -9,7 +9,7 @@ function pripremaPodataka(funkcijaZaObradu, obj) {
 	kombinacije += fs.readFileSync("./izrazi/izrazi5.txt", "utf-8")
 	kombinacije += fs.readFileSync("./izrazi/izrazi7.txt", "utf-8")
 	kombinacije += fs.readFileSync("./izrazi/izrazi9.txt", "utf-8")
-	// kombinacije += fs.readFileSync("./izrazi/izrazi11.txt", "utf-8")
+	kombinacije += fs.readFileSync("./izrazi/izrazi11.txt", "utf-8")
 	const linije = kombinacije.split("\n")
 
 	for (let i = 0; i < linije.length; ++i) {
@@ -47,8 +47,23 @@ function demoIspis(obj, header, format) {
 	})
 }
 /* -------------------------------------------------------------------------- */
-pripremaPodataka(dijkstra.procenaIzraza, dijkstra.obj)
-demoIspis(dijkstra.obj, 1, 1) // 1. Objekat koji sadrži ulazne podatke i rešenja
+function ucitavanjeIzKonzole(obj) {
+	if (process.argv[2] == undefined) return
+
+	let brojevi = []
+
+	for (let i = 2; i <= 8; ++i) {
+		if (process.argv[i] == undefined) return
+		brojevi.push(process.argv[i])
+	}
+	obj.a = brojevi[0]; obj.b = brojevi[1]; obj.c = brojevi[2]
+	obj.d = brojevi[3]; obj.e = brojevi[4]; obj.f = brojevi[5]
+	obj.zadatiBroj = brojevi[6]
+}
+/* -------------------------------------------------------------------------- */
+ucitavanjeIzKonzole(dijkstra.Obj)
+pripremaPodataka(dijkstra.procenaIzraza, dijkstra.Obj)
+demoIspis(dijkstra.Obj, 0, 1) // 1. Objekat koji sadrži ulazne podatke i rešenja
                               // 2. Header, da-ne
                               // 3. Format: 1 - samo izrazi; 2 - izrazi + detalji
 /* -------------------------------------------------------------------------- */
