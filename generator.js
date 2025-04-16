@@ -1,7 +1,8 @@
 /* -------------------------------------------------------------------------- */
 // Copyright (c) Nikola Vukićević 2025.
 /* -------------------------------------------------------------------------- */
-import { daLiJeOperand } from './util.js'
+import { daLiJeOperand }    from './util.js'
+import { svodjenjeIzraza2 } from './stablo_2.js'
 /* -------------------------------------------------------------------------- */
 const patterns = {
 	znakovi:   [ 'a' , 'b' , 'c' , 'd' , 'e' , 'f' ],
@@ -254,6 +255,7 @@ function utiskivanjePatterna(pat, zn, op) {
 /* -------------------------------------------------------------------------- */
 function proveraMape(mapa, izraz) {
 	let p = svodjenjeIzraza(izraz)
+	p = svodjenjeIzraza2(p)
 
 	if (mapa.get(p)) return false
 
@@ -291,8 +293,6 @@ function ispisKombinacija(lista) {
 /* -------------------------------------------------------------------------- */
 // Zapis u datoteku se obavlja preko shell-a (redirekcija).
 function kreiranjeSadrzajaZaDatoteku(brOperatora, hashOptimizacija, demo) {
-	// let lista1 = [ 'a' , 'b' , 'c' , 'd', 'e' , 'f' ]
-	// let perm   = kreiranjeKombinacija(lista1, 3, false)
 	let lista = kreiranjeIzraza(patterns, brOperatora, hashOptimizacija)
 
 	if (demo) {
@@ -338,12 +338,12 @@ function demo() {
 
 // demo()
 
-let s = "fbce*ad*-*+" 
-let p = svodjenjeIzraza(s)
-console.log(s)
-console.log(p)
+// let s = "fbce*ad*-*+" 
+// let p = svodjenjeIzraza(s)
+// console.log(s)
+// console.log(p)
 
-// kreiranjeSadrzajaZaDatoteku(11, true, false) // optimizacije - true; demo - false
+kreiranjeSadrzajaZaDatoteku(7, true, false) // optimizacije - true; demo - false
 
 
 

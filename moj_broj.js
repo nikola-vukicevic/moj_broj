@@ -4,14 +4,20 @@
 import * as dijkstra from './dijkstra.js'
 import * as fs from 'fs'
 /* -------------------------------------------------------------------------- */
-function pripremaPodataka(funkcijaZaObradu, obj) {
-	// let kombinacije = fs.readFileSync("./kombinacije.txt", "utf-8")//.split("\n")
-	let kombinacije = fs.readFileSync("./izrazi/izrazi3.txt", "utf-8")//.split("\n")
-	kombinacije += fs.readFileSync("./izrazi/izrazi5.txt", "utf-8")
-	kombinacije += fs.readFileSync("./izrazi/izrazi7.txt", "utf-8")
-	kombinacije += fs.readFileSync("./izrazi/izrazi9.txt", "utf-8")
-	if (obj.prosirenaLista) {
-		kombinacije += fs.readFileSync("./izrazi/izrazi11.txt", "utf-8")
+function pripremaPodataka(funkcijaZaObradu, obj, debug) {
+	let kombinacije = ""
+	if (debug) {
+		kombinacije = fs.readFileSync("./kombinacije.txt", "utf-8")
+	}
+	else {
+		kombinacije += fs.readFileSync("./izrazi/izrazi3.txt", "utf-8")
+		kombinacije += fs.readFileSync("./izrazi/izrazi5.txt", "utf-8")
+		kombinacije += fs.readFileSync("./izrazi/izrazi7.txt", "utf-8")
+		kombinacije += fs.readFileSync("./izrazi/izrazi9.txt", "utf-8")
+
+		if (obj.prosirenaLista) {
+			kombinacije += fs.readFileSync("./izrazi/izrazi11.txt", "utf-8")
+		}
 	}
 	const linije = kombinacije.split("\n")
 
@@ -70,7 +76,7 @@ function ucitavanjeIzKonzole(obj) {
 /* -------------------------------------------------------------------------- */
 ucitavanjeIzKonzole(dijkstra.Obj)
 pripremaPodataka(dijkstra.procenaIzraza, dijkstra.Obj)
-demoIspis(dijkstra.Obj, 1, 1) // 1. Objekat koji sadrži ulazne podatke i rešenja
+demoIspis(dijkstra.Obj, 1, 2) // 1. Objekat koji sadrži ulazne podatke i rešenja
                               // 2. Header, da-ne
                               // 3. Format: 1 - samo izrazi; 2 - izrazi + detalji
 /* -------------------------------------------------------------------------- */
