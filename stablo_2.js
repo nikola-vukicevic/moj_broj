@@ -47,6 +47,7 @@ function _initStablo2(stablo) {
 /* -------------------------------------------------------------------------- */
 // Pronalaženje "suseda" korenog čvora
 /* ----------------------------------- */
+// cvor (binarni čvor) - kategorija (+- ili */; preuzima se iz binarnog čvora) - susedi (svi 'susedi' koji čine koren nebinarnog čvora)
 function popunjavanjeKorenogCvora(cvor, kategorija, susedi) {
 	if (cvor == null)                  return
 	if (cvor.kategorija != kategorija) return
@@ -57,11 +58,11 @@ function popunjavanjeKorenogCvora(cvor, kategorija, susedi) {
 	popunjavanjeKorenogCvora(cvor.levi,  kategorija, susedi)
 	popunjavanjeKorenogCvora(cvor.desni, kategorija, susedi)
 	
-	const dummyPrethodni = kreiranjeDummyPrethodnog(cvor)
-	obrtanjeOperacija(cvor, dummyPrethodni)
+	const dummyPredak = kreiranjeDummyPretka(cvor)
+	obrtanjeOperacija(cvor, dummyPredak)
 }
 /* -------------------------------------------------------------------------- */
-function kreiranjeDummyPrethodnog(cvor) {
+function kreiranjeDummyPretka(cvor) {
 	let opPom = (cvor.operacija < 3)? 2 : 4
 
 	return {
@@ -71,28 +72,42 @@ function kreiranjeDummyPrethodnog(cvor) {
 }
 /* -------------------------------------------------------------------------- */
 function obrtanjeOperacijaRadni(cvor, prethodni) {
-	if (cvor.leviDesni == 0) return false
-
-	if (prethodni.operacija > cvor.operacija) {
-		return false
+	// levi operand:
+	if (cvor.leviDesni == 0) {
+		if (prethodni.obrtanje) {
+			return true
+		}
+		else {
+			return false
+		}
 	}
 
-	if (prethodni.operacija < cvor.operacija) {
-		return true
-	}
+	// desni operand:
+	let operacija = (cvor.operacija      == 1 || cvor.operacija      == 3)? 1 : 2
+	let predak    = (prethodni.operacija == 1 || prethodni.operacija == 3)? 1 : 2
 
-	if (prethodni.operacija == 2 || prethodni.opracija == 4) {
-		return false
+	if (prethodni.obrtanje == false) {
+		if (predak == 1) {
+			return true
+		}
+		else {
+			return false
+		}
 	}
 	else {
-		return true
+		if (predak == operacija) {
+			return false
+		}
+		else {
+			return true
+		}
 	}
 }
 /* -------------------------------------------------------------------------- */
 function obrtanjeOperacija(cvor, prethodni) {
 	if (cvor == null) return
 
-	obrtanjeOperacijaRadni(cvor, prethodni)
+	cvor.obrtanje = obrtanjeOperacijaRadni(cvor, prethodni)
 
 	obrtanjeOperacija(cvor.levi,  cvor)
 	obrtanjeOperacija(cvor.desni, cvor)
@@ -119,19 +134,24 @@ function pronalazenjePotomaka(susedi, potomci) {
 /* -------------------------------------------------------------------------- */
 // operacija (predak) - leviDesni (cvor) - flip (predak)
 function odredjivanjeOperacijeRadni(operacija, leviDesni, flip) {
+	let kategorija = (operacija < 3)? 1 : 3 // lepše je 1 ili 2,
+											// ali, ovako se samo dodaje
+											// ili ne dodaje jedinica
+											// na kraju ....
+	let tip = (operacija == 1 || operacija == 3)? 1 : 2
+
 	if (leviDesni == 0) { // levi operand
-		return (operacija < 3)? 2 : 4
+		// return (operacija < 3)? 2 : 4
+		if (flip == true  && tip == 1) return kategorija
+		if (flip == true  && tip == 2) return kategorija
+		if (flip == false && tip == 1) return kategorija + 1
+		if (flip == false && tip == 2) return kategorija + 1
 	}
 	else { // desni operand
-		let kategorija = (operacija < 3)? 1 : 3 // lepše je 1 ili 2,
-			                                    // ali, ovako se samo dodaje
-		                                        // ili ne dodaje jedinica
-		let tip = (operacija == 1 || operacija == 3)? 1 : 2
-
-		if (tip == 1 && flip == false) return kategorija
-		if (tip == 1 && flip == true ) return kategorija + 1
-		if (tip == 2 && flip == false) return kategorija + 1
-		if (tip == 2 && flip == true ) return kategorija
+		if (flip == true  && tip == 1) return kategorija + 1
+		if (flip == true  && tip == 2) return kategorija
+		if (flip == false && tip == 1) return kategorija
+		if (flip == false && tip == 2) return kategorija + 1
 	}
 }
 /* -------------------------------------------------------------------------- */
@@ -271,10 +291,11 @@ export function svodjenjeIzraza2(izraz) {
 }
 /* -------------------------------------------------------------------------- */
 function demo() {
-	const postfix0 = "ab-e+f+d*c-"
-	// const postfix0 = "bc-efd-*+ghkm*+n-*-"
+	// const postfix0 = "ab-ef--gh-cd---"
+	const postfix0 = "bc-efd-*+ghkm*+n-*-"
 	// const postfix0 = "abc+-"
-	const postfix1 = /* (process.argv.length == 3)? process.argv[2] : */ postfix0
+	const postfix1 = (process.argv.length == 3)? process.argv[2] : postfix0
+	// const postfix1 = /* (process.argv.length == 3)? process.argv[2] : */ postfix0
 	const postfix2 = svodjenjeIzraza2(postfix1)
 	console.log(postfix1)
 	console.log(postfix2)
