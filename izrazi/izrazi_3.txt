@@ -1,4 +1,3 @@
-af*b-c-e-
 ab+
 ab-
 ab*
