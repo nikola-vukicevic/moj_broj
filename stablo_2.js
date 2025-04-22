@@ -300,9 +300,9 @@ function ucitavanjeUlaza(zadatiString, pokrenutIzKonzole, test, debug) {
     return zadatiString
 }
 /* -------------------------------------------------------------------------- */
-function demoIspis(pokrenutIzKonzole, test, debug) {
-    if (pokrenutIzKonzole && process.argv.length < 3)
-        return
+function demoIspis(pokrenutIzKonzole, test, debug, generator) {
+    if (pokrenutIzKonzole && process.argv.length < 3) return
+	if (generator) return
     // const postfix0 = "ab-ef--gh-cd---"
     // const postfix0 = "bc-efd-*+ghkm*+n-*-"
     // const postfix0 = "abc+-"
@@ -318,8 +318,10 @@ const pokrenutIzKonzole = typeof process === 'object'
 const debug             = pokrenutIzKonzole &&
 	                      process.argv.length == 3 &&
 	                      process.argv[2] == "-debug";
+const generator         = pokrenutIzKonzole &&
+	                      process.argv[1].endsWith("generator")
 const test              = pokrenutIzKonzole &&
 	                      process.argv.length == 4 &&
 	                      process.argv[3] == "-test";
-demoIspis(pokrenutIzKonzole, test, debug);
+demoIspis(pokrenutIzKonzole, test, debug, generator);
 /* -------------------------------------------------------------------------- */

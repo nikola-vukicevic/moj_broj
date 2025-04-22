@@ -4,7 +4,7 @@
 import { daLiJeOperand }    from './util.js'
 import { svodjenjeIzraza2 } from './stablo_2.js'
 /* -------------------------------------------------------------------------- */
-const patterns = {
+const Patterns = {
 	znakovi:   [ 'a' , 'b' , 'c' , 'd' , 'e' , 'f' ],
 	operacije: [ '+' , '-' , '*' , '/' ],
 
@@ -292,7 +292,7 @@ function ispisKombinacija(lista) {
 }
 /* -------------------------------------------------------------------------- */
 // Zapis u datoteku se obavlja preko shell-a (redirekcija).
-function kreiranjeSadrzajaZaDatoteku(brOperatora, hashOptimizacija, demo) {
+function kreiranjeSadrzajaZaDatoteku(patterns, brOperatora, hashOptimizacija, demo) {
 	let lista = kreiranjeIzraza(patterns, brOperatora, hashOptimizacija)
 
 	if (demo) {
@@ -303,11 +303,11 @@ function kreiranjeSadrzajaZaDatoteku(brOperatora, hashOptimizacija, demo) {
 	}
 }
 /* -------------------------------------------------------------------------- */
-function demo() {
+function demoIspis(patterns) {
 	let t1 = performance.now()
 
 	console.log(`4 operanda - 3 operatora`)
-	kreiranjeSadrzajaZaDatoteku(7, true, true)
+	kreiranjeSadrzajaZaDatoteku(patterns, 7, true, true)
 	// kreiranjeSadrzajaZaDatoteku(7, false, true)
 	let t2 = performance.now()
 	let t3 = t2 - t1
@@ -317,7 +317,7 @@ function demo() {
 	console.log(`------------------------`)
 
 	console.log(`5 operanada - 4 operatora`)
-	kreiranjeSadrzajaZaDatoteku(9, true, true)
+	kreiranjeSadrzajaZaDatoteku(patterns, 9, true, true)
 	// kreiranjeSadrzajaZaDatoteku(9, false, true)
 	t2 = performance.now()
 	t3 = t2 - t1
@@ -327,7 +327,7 @@ function demo() {
 	console.log(`------------------------`)
 
 	console.log(`6 operanada - 5 operatora`)
-	kreiranjeSadrzajaZaDatoteku(11, true, true)
+	kreiranjeSadrzajaZaDatoteku(patterns, 11, true, true)
 	// kreiranjeSadrzajaZaDatoteku(11, false, true)
 	t2 = performance.now()
 	t3 = t2 - t1
@@ -335,15 +335,32 @@ function demo() {
 	t1 = performance.now()
 }
 /* -------------------------------------------------------------------------- */
+function ucitavanjeIzKonzole() {
+	if (typeof process !== 'object') return null
 
-// demo()
+	let brTokena = parseInt(process.argv[2])
 
-// let s = "fbce*ad*-*+" 
-// let p = svodjenjeIzraza(s)
-// console.log(s)
-// console.log(p)
+	if (typeof brTokena === 'number') {
+		return brTokena
+	}
 
-kreiranjeSadrzajaZaDatoteku(3, true, false) // optimizacije - true; demo - false
-
+	return null
+}
+/* -------------------------------------------------------------------------- */
+function ispis(patterns, brOperanada, optimizacije, demo) {
+	if (demo) {
+		demoIspis(patterns)
+	}
+	else {
+		let brTokena = ucitavanjeIzKonzole() || brOperanada * 2 - 1
+		kreiranjeSadrzajaZaDatoteku(patterns, brTokena, optimizacije, demo)
+	}
+}
+/* -------------------------------------------------------------------------- */
+const brOperanada  = 2
+const optimizacije = true
+const demo         = false
+ispis(Patterns, brOperanada, optimizacije, demo)
+/* -------------------------------------------------------------------------- */
 
 
