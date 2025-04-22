@@ -1,4 +1,3 @@
-af*b-c-e-
 abcd+++
 abcd++-
 abc++d-
