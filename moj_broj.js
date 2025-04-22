@@ -10,13 +10,13 @@ function pripremaPodataka(funkcijaZaObradu, obj, debug) {
 		kombinacije = fs.readFileSync("./kombinacije.txt", "utf-8")
 	}
 	else {
-		kombinacije += fs.readFileSync("./izrazi/izrazi3.txt", "utf-8")
-		kombinacije += fs.readFileSync("./izrazi/izrazi5.txt", "utf-8")
-		kombinacije += fs.readFileSync("./izrazi/izrazi7.txt", "utf-8")
-		kombinacije += fs.readFileSync("./izrazi/izrazi9.txt", "utf-8")
+		kombinacije += fs.readFileSync("./izrazi/izrazi_3.txt", "utf-8")
+		kombinacije += fs.readFileSync("./izrazi/izrazi_5.txt", "utf-8")
+		kombinacije += fs.readFileSync("./izrazi/izrazi_7.txt", "utf-8")
+		kombinacije += fs.readFileSync("./izrazi/izrazi_9.txt", "utf-8")
 
 		if (obj.prosirenaLista) {
-			kombinacije += fs.readFileSync("./izrazi/izrazi11.txt", "utf-8")
+			kombinacije += fs.readFileSync("./izrazi/izrazi_11.txt", "utf-8")
 		}
 	}
 	const linije = kombinacije.split("\n")
