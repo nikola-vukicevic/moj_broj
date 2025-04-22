@@ -1,4 +1,3 @@
-af*b-c-e-
 abc++
 abc+-
 ab+c-
