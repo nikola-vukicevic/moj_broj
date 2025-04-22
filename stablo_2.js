@@ -83,7 +83,7 @@ function obrtanjeOperacijaRadni(cvor, prethodni) {
 	}
 
 	// desni operand:
-	let operacija = (cvor.operacija      == 1 || cvor.operacija      == 3)? 1 : 2
+	// let operacija = (cvor.operacija      == 1 || cvor.operacija      == 3)? 1 : 2
 	let predak    = (prethodni.operacija == 1 || prethodni.operacija == 3)? 1 : 2
 
 	if (prethodni.obrtanje == false) {
@@ -95,7 +95,7 @@ function obrtanjeOperacijaRadni(cvor, prethodni) {
 		}
 	}
 	else {
-		if (predak == operacija) {
+		if (predak == 1) {
 			return false
 		}
 		else {
@@ -290,17 +290,36 @@ export function svodjenjeIzraza2(izraz) {
 	return stablo2.koren.postfix
 }
 /* -------------------------------------------------------------------------- */
-function demo() {
-	// const postfix0 = "ab-ef--gh-cd---"
-	const postfix0 = "bc-efd-*+ghkm*+n-*-"
-	// const postfix0 = "abc+-"
-	const postfix1 = (process.argv.length == 3)? process.argv[2] : postfix0
-	// const postfix1 = /* (process.argv.length == 3)? process.argv[2] : */ postfix0
-	const postfix2 = svodjenjeIzraza2(postfix1)
-	console.log(postfix1)
-	console.log(postfix2)
+function ucitavanjeUlaza(zadatiString, pokrenutIzKonzole, test, debug) {
+    if (test) return process.argv[2]
+
+    if (debug) return zadatiString
+
+    if (pokrenutIzKonzole) return process.argv[2]
+
+    return zadatiString
 }
 /* -------------------------------------------------------------------------- */
-// demo()
-/* -------------------------------------------------------------------------- */
+function demoIspis(pokrenutIzKonzole, test, debug) {
+    if (pokrenutIzKonzole && process.argv.length < 3)
+        return
+    // const postfix0 = "ab-ef--gh-cd---"
+    // const postfix0 = "bc-efd-*+ghkm*+n-*-"
+    // const postfix0 = "abc+-"
+    const postfix0 = "af*bce++-"
+    const postfix1 = ucitavanjeUlaza(postfix0, pokrenutIzKonzole, test, debug)
+    const postfix2 = svodjenjeIzraza2(postfix1)
 
+    if (!test) console.log(postfix1)
+    console.log(postfix2)
+}
+/* -------------------------------------------------------------------------- */
+const pokrenutIzKonzole = typeof process === 'object'
+const debug             = pokrenutIzKonzole &&
+	                      process.argv.length == 3 &&
+	                      process.argv[2] == "-debug";
+const test              = pokrenutIzKonzole &&
+	                      process.argv.length == 4 &&
+	                      process.argv[3] == "-test";
+demoIspis(pokrenutIzKonzole, test, debug);
+/* -------------------------------------------------------------------------- */

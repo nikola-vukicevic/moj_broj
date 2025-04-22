@@ -343,7 +343,7 @@ function demo() {
 // console.log(s)
 // console.log(p)
 
-kreiranjeSadrzajaZaDatoteku(11, true, false) // optimizacije - true; demo - false
+kreiranjeSadrzajaZaDatoteku(3, true, false) // optimizacije - true; demo - false
 
 
 
