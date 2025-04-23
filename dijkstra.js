@@ -14,7 +14,8 @@ export const Obj = {
 	najblizi:       1000000,
 	razdaljina:     1000000000,
 	prosirenaLista: false,
-	listaResenja:   [ ]
+	listaResenja:   [ ],
+	mapaInfiksni:   new Map()
 }
 /* -------------------------------------------------------------------------- */
 function formatiranjeInfiksnogOperanda(op, redniBroj, znak, znakPrioritet) {
@@ -103,30 +104,43 @@ function racunanje(z, stek, obj) {
 	return true
 }
 /* -------------------------------------------------------------------------- */
-function ubacivanjeIzrazaUListu(lista, izraz, obj) {
+function proveraDuplikataInfiksni(izraz, obj) {
+	if (obj.mapaInfiksni.get(izraz)) return true
+
+	obj.mapaInfiksni.set(izraz, true)
+	
+	return false
+}
+/* -------------------------------------------------------------------------- */
+function ubacivanjeIzrazaUListu(lista, postfiksniIzraz, obj, uklanjanjeInfiksnihDuplikata) {
+	let infiksniIzraz = pretvaranjeUInfiksniZapis(postfiksniIzraz, obj)
+
+	if (uklanjanjeInfiksnihDuplikata && proveraDuplikataInfiksni(infiksniIzraz, obj)) return
+
 	lista.push([
-		Math.ceil(izraz.length / 2),
-		pretvaranjeUInfiksniZapis(izraz, obj),
-		izraz
+		Math.ceil(postfiksniIzraz.length / 2),
+		infiksniIzraz,
+		// pretvaranjeUInfiksniZapis(izraz, obj),
+		postfiksniIzraz
 	])
 }
 /* -------------------------------------------------------------------------- */
-function popunjavanjeListe(rez, izraz, obj) {
+function popunjavanjeListe(rez, izraz, obj, uklanjanjeInfiksnihDuplikata) {
 	let razdaljina_pom = Math.abs(obj.zadatiBroj - rez)
 
 	if (razdaljina_pom == obj.razdaljina) {
-		ubacivanjeIzrazaUListu(obj.listaResenja, izraz, obj)
+		ubacivanjeIzrazaUListu(obj.listaResenja, izraz, obj, uklanjanjeInfiksnihDuplikata)
 	}
 
 	if (razdaljina_pom < obj.razdaljina) {
 		obj.razdaljina   = razdaljina_pom
 		obj.najblizi     = rez
 		obj.listaResenja = [ ]
-		ubacivanjeIzrazaUListu(obj.listaResenja, izraz, obj)
+		ubacivanjeIzrazaUListu(obj.listaResenja, izraz, obj, uklanjanjeInfiksnihDuplikata)
 	}
 }
 /* -------------------------------------------------------------------------- */
-export function procenaIzraza(s, obj) {
+export function procenaIzraza(s, obj, uklanjanjeInfiksnihDuplikata) {
 	const stek = [ ]
 
 	for (let i = 0; i < s.length; ++i) {
@@ -137,11 +151,11 @@ export function procenaIzraza(s, obj) {
 		}
 		else {
 			const rez = racunanje(znak, stek, obj)
-			if (rez == false) return false
+			if (rez == false) return // false
 		}
 	}
 
-	popunjavanjeListe(stek[0], s, obj)
+	popunjavanjeListe(stek[0], s, obj, uklanjanjeInfiksnihDuplikata)
 }
 /* -------------------------------------------------------------------------- */
 

@@ -4,8 +4,9 @@
 import * as dijkstra from './dijkstra.js'
 import * as fs from 'fs'
 /* -------------------------------------------------------------------------- */
-function pripremaPodataka(funkcijaZaObradu, obj, debug) {
+function pripremaPodataka(funkcijaZaObradu, obj, debug, uklanjanjeInfiksnihDuplikata) {
 	let kombinacije = ""
+
 	if (debug) {
 		kombinacije = fs.readFileSync("./kombinacije.txt", "utf-8")
 	}
@@ -19,12 +20,13 @@ function pripremaPodataka(funkcijaZaObradu, obj, debug) {
 			kombinacije += fs.readFileSync("./izrazi/izrazi_11.txt", "utf-8")
 		}
 	}
+
 	const linije = kombinacije.split("\n")
 
 	for (let i = 0; i < linije.length; ++i) {
 		let l = linije[i]
 		if (l == "" || l.startsWith("##")) continue
-		funkcijaZaObradu(l, obj)
+		funkcijaZaObradu(l, obj, uklanjanjeInfiksnihDuplikata)
 	}
 }
 /* -------------------------------------------------------------------------- */
@@ -75,7 +77,9 @@ function ucitavanjeIzKonzole(obj) {
 }
 /* -------------------------------------------------------------------------- */
 ucitavanjeIzKonzole(dijkstra.Obj)
-pripremaPodataka(dijkstra.procenaIzraza, dijkstra.Obj)
+const debug                        = false
+const uklanjanjeInfiksnihDuplikata = true
+pripremaPodataka(dijkstra.procenaIzraza, dijkstra.Obj, debug, uklanjanjeInfiksnihDuplikata)
 demoIspis(dijkstra.Obj, 1, 2) // 1. Objekat koji sadrži ulazne podatke i rešenja
                               // 2. Header, da-ne
                               // 3. Format: 1 - samo izrazi; 2 - izrazi + detalji
