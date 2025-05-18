@@ -5,7 +5,7 @@ FLDEBUG = -O0 -g -Wall
 
 TARGET     = moj_broj_cpp
 TARGET_DBG = main_debug
-SRCS       = ./src/*.cpp
+SRCS       = ./*.cpp
 
 install:
 	$(CC) $(CCFLAGS) $(SRCS) -o $(TARGET)
