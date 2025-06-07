@@ -19,7 +19,7 @@ void ucitavanjeKombinacija(std::vector<std::string> &kombinacije, std::string na
 //
 void pripremaPodataka(DijkstraObj &obj, bool debug, bool uklanjanjeInfiksnihDuplikata);
 //
-void demoIspis(DijkstraObj &obj, bool header, int format);
+void ispis(DijkstraObj &obj, bool header, int format);
 //
 // main.cpp:
 void procenaIzraza(std::string izraz, DijkstraObj &obj, bool uklanjanjeInfiksnihDuplikata);

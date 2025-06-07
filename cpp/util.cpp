@@ -1,10 +1,12 @@
 /* -------------------------------------------------------------------------- */
-#include"util.h"
+#include "util.h"
 /* -------------------------------------------------------------------------- */
 bool daLiJeOperand(char znak) {
 	return znak >= 'a' && znak <= 'f';
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Pomoćna funkcija za ispis hash mape
+ */
 std::string dumpMap(std::map<std::string, bool> mapa) {
 	std::string s = "";
 
@@ -14,7 +16,9 @@ std::string dumpMap(std::map<std::string, bool> mapa) {
 
 	return s;
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Pomoćna funkcija za popunjavanje 'glavnog' objekta u programu.
+ */
 void popunjavanjeDijkstraObjekta(std::vector<int> lista, DijkstraObj &podaci) {
 	podaci.a = lista[0];
 	podaci.b = lista[1];
@@ -24,7 +28,11 @@ void popunjavanjeDijkstraObjekta(std::vector<int> lista, DijkstraObj &podaci) {
 	podaci.f = lista[5];
 	podaci.zadatiBroj = lista[6];
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Pomoćna funkcija za popunjavanje 'glavnog' objekta u programu - 
+ * koja se aktivira ukoliko učitavanje podataka iz terminala 
+ * _nije_ obavljeno na korektan način.
+ */
 void ucitavanjeDebug(DijkstraObj &podaci) {
 	podaci.a = 2;
 	podaci.b = 7;
@@ -34,7 +42,10 @@ void ucitavanjeDebug(DijkstraObj &podaci) {
 	podaci.f = 100;
 	podaci.zadatiBroj = 941;
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+  * Funkcija za učitavanje ulaznih podataka preko terminala. ###
+  * Ulazni podaci su: 6 zadatih brojeva i 1 traženi broj.
+  */
 bool ucitavanjeIzKonzole(DijkstraObj &podaci, int argc, char *argv[], bool debug) {
 	if (debug) {
 		ucitavanjeDebug(podaci);
@@ -63,12 +74,16 @@ bool ucitavanjeIzKonzole(DijkstraObj &podaci, int argc, char *argv[], bool debug
 
 	return true;
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Priprema pomoćnih podataka (za debugging).
+ */
 void pripremaPodataka_demo(DijkstraObj &podaci) {
 	std::string izraz = "ab+c+f+ed-*";
 	procenaIzraza(izraz, podaci, true);
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Učitavanje postfiksnih izraza iz _pojedinačne_ datoteke.
+ */
 void ucitavanjeKombinacija(std::vector<std::string> &kombinacije, std::string nazivDatoteke) {
 	std::ifstream datoteka;
 
@@ -82,8 +97,10 @@ void ucitavanjeKombinacija(std::vector<std::string> &kombinacije, std::string na
 
 	datoteka.close();
 }
-/* -------------------------------------------------------------------------- */
-// TODO - dodati callback(?), kao u Node.js verziji
+/** ----------------------------------------------------------------------------
+ * Kreiranje liste izraza čijim rešavanjem se dobija 'traženi broj' 
+ * (ili najpribližnija vrednost).
+ */
 void pripremaPodataka(DijkstraObj &obj, bool debug, bool uklanjanjeInfiksnihDuplikata) {
 	std::vector<std::string> kombinacije;
 
@@ -107,8 +124,10 @@ void pripremaPodataka(DijkstraObj &obj, bool debug, bool uklanjanjeInfiksnihDupl
 		}
 	}
 }
-/* -------------------------------------------------------------------------- */
-void demoIspis(DijkstraObj &obj, bool header, int format) {
+/** ----------------------------------------------------------------------------
+ * Ispis pomoćnih podataka i pronađenih rešenja.
+ */
+void ispis(DijkstraObj &obj, bool header, int format) {
 	if (header) {
 		std::cout << obj.ispisDebug();
 	}

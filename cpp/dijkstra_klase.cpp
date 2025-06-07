@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------- */
-#include"./dijkstra_klase.h"
+#include "./dijkstra_klase.h"
 /* -------------------------------------------------------------------------- */
 ResenjeElement::ResenjeElement(int brElemenata, std::string infix, std::string postfix) {
 	this->brElemenata = brElemenata;
@@ -26,7 +26,10 @@ DijkstraObj::DijkstraObj() {
 	this->pronadjen      = false;
 	this->prosirenaLista = false;     
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Očitavanja vrednosti nekog od zadatih brojeva, 
+ * shodno zadatom identifikatoru.
+ */
 int DijkstraObj::pronalazenjeVrednosti(char c) {
 	switch (c) {
 		case 'a': return this->a; break;
@@ -38,7 +41,9 @@ int DijkstraObj::pronalazenjeVrednosti(char c) {
 		default: return -1; break;
 	}
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Pomoćni operator za pronalaženje nekog od zadatih brojeva.
+ */
 int DijkstraObj::operator [] (char c) {
 	return pronalazenjeVrednosti(c);
 }
@@ -61,7 +66,10 @@ std::string DijkstraObj::ispisDebug() {
 
 	return s;
 }
-/* -------------------------------------------------------------------------- */
+/** ----------------------------------------------------------------------------
+ * Radna funkcija za ispis pronađenih rešenja 
+ * (koristi se unutar funkcije _ispis_).
+ */
 std::string DijkstraObj::ispisListe(int format) {
 	std::string s = "";
 
